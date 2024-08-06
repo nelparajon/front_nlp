@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Home from './componentes/home';
+import Historico from './componentes/historico';
 
-function App() {
+//componente principal App
+const App = () => {
+  const [currentView, setCurrentView] = useState('home');
+
+  //manejamos la vista actual, por defecto home
+  const handleViewChange = (view) => {
+    setCurrentView(view);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {/* Inicia el componente Home si la vista actual es 'home' */}
+      {currentView === 'home' && <Home onViewChange={handleViewChange} />}
+      {/* Inicia el componente historico si la vista es historico */}
+      {currentView === 'historico' && <Historico onBack={() => handleViewChange('home')} />}
     </div>
   );
-}
+};
 
 export default App;
