@@ -38,25 +38,27 @@
 }
 
 .container {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.column {
-  flex: 1;
-  min-width: 25%;
-  box-sizing: border-box;
-  padding: 10px;
-  border: 1px solid #ddd; 
-}
-
-.row {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto auto auto; /* Ajusta las columnas al contenido */
+  gap: 10px;
   width: 100%;
 }
 
-.cell {
-  flex: 1;
+.header-cell {
+  font-weight: bold;
+  background-color: #444; /* Color de fondo para el encabezado */
+  color: white;
+  text-align: left;
   padding: 10px;
-  border: 1px solid #ddd; 
+  border: 1px solid #ddd;
+}
+
+.cell {
+  padding: 10px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  text-align: left;
+  background-color: #222; /* Color de fondo para las filas */
+  color: white;
+  word-wrap: break-word; /* Asegura que el texto se ajuste a la celda */
 }

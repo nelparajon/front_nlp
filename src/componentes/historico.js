@@ -26,37 +26,30 @@ const Historico = ({ onBack }) => {
           <h1>Histórico de peticiones</h1>
           <div className='container'>
             <div className="column">
-              <h3>Estado</h3>
+              <div className="header-cell">Estado</div>
               {historicoData.map((item, index) => (
-                <div key={index} className="row">
-                  <div className="cell">{item.Estado}</div>
-                </div>
+                <div key={index} className="cell">{item.Estado}</div>
               ))}
             </div>
             <div className="column">
-              <h3>Fecha</h3>
+              <div className="header-cell">Fecha</div>
               {historicoData.map((item, index) => (
-                <div key={index} className="row">
-                  <div className="cell">{item.Fecha}</div>
-                </div>
+                <div key={index} className="cell">{item.Fecha}</div>
               ))}
             </div>
             <div className="column">
-              <h3>Mensaje</h3>
+              <div className="header-cell">Similitud</div>
               {historicoData.map((item, index) => (
-                <div key={index} className="row">
-                  <div className="cell">{item.Mensaje}</div>
-                </div>
+                <div key={index} className="cell">{item.Similitud !== null ? item.Similitud + '%' : 'N/A'}</div>
               ))}
             </div>
             <div className="column">
-              <h3>Similitud</h3>
+              <div className="header-cell">Mensaje</div>
               {historicoData.map((item, index) => (
-                <div key={index} className="row">
-                  <div className="cell">{item.Similitud !== null ? item.Similitud + '%' : 'N/A'}</div>
-                </div>
+                <div key={index} className="cell">{item.Mensaje}</div>
               ))}
             </div>
+            
           </div>
         </div>
       );
@@ -67,7 +60,6 @@ const Historico = ({ onBack }) => {
   return (
     // HTML para la vista histórico
     <div>
-      <h1>Histórico</h1>
       <button onClick={onBack}>Volver</button>
       {historicoData ? (
         formatResult()
