@@ -42,10 +42,39 @@ const Home = ({ onViewChange }) => {
     }
   };
 
+  const formatResult = () => {
+    if (result) {
+      if (result.Similitud !== undefined) {
+        // Convertimos la cadena de similitud a un número
+        const similitud = parseFloat(result.Similitud);
+        const isHighSimilarity = similitud >= 90.00;
+        const message = isHighSimilarity
+          ? `Los documentos son similares. Similitud: ${similitud}%`
+          : `Los documentos no son similares. Similitud: ${similitud}%`;
+
+        const resultStyle = {
+          backgroundColor: 'white',
+          color: isHighSimilarity ? 'green' : 'red',
+          padding: '10px',
+          marginTop: '20px',
+        };
+
+        return <div style={resultStyle}>{message}</div>;
+      } else if (result.error) {
+        return (
+          <div style={{ backgroundColor: 'red', color: 'white', padding: '10px', marginTop: '20px' }}>
+            {result.error}
+            <pre>{JSON.stringify(result, null, 2)}</pre>
+          </div>
+        );
+      }
+    }
+    return null;
+  };
+
   return (
-    //html para la vista del comparador de pdf, por defecto home
     <div>
-      <h1>Comparacion de documentos PDF</h1>
+      <h1>Comparación de documentos PDF</h1>
       <input type="file" accept="application/pdf" onChange={handlePdf1Change} />
       <input type="file" accept="application/pdf" onChange={handlePdf2Change} />
       <button onClick={handleSubmit}>Comparar PDFs</button>
@@ -53,8 +82,9 @@ const Home = ({ onViewChange }) => {
       
       {result && (
         <div>
-          <h2>Resultado:</h2>
-          <pre>{JSON.stringify(result, null, 2)}</pre>
+          <h2>Resultado de la comparación</h2>
+          {formatResult()}
+          
         </div>
       )}
     </div>
