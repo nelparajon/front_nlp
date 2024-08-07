@@ -24,7 +24,7 @@ const Home = ({ onViewChange }) => {
 
     try {
       //usamos axio de terceros para enviar los documentos al servidor
-      const response = await axios.post('http://localhost:5000/analizar_documentos', formData, {
+      const response = await axios.post('/analizar_documentos', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

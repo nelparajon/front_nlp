@@ -2,20 +2,20 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../App.css'; // Importamos los estilos CSS
 
+
 const Historico = ({ onBack }) => {
   const [historicoData, setHistoricoData] = useState(null);
+  const [error, setError] = useState(null);
 
-  // Usamos esto para cargar los datos del servidor con la ruta especificada
   useEffect(() => {
-    axios.get('http://localhost:5000/historico')
+    axios.get('/historico') // Petición a la ruta relativa
       .then(response => {
-        //ordenados las peticiones en orden descendente
         const sortedData = response.data.Peticiones.sort((a, b) => new Date(b.Fecha) - new Date(a.Fecha));
-        // Guardamos los datos recibidos aquí
         setHistoricoData(sortedData);
       })
       .catch(error => {
         console.error('Ha habido un error al intentar acceder a la url', error);
+        setError('Ha habido un error al intentar acceder a los datos.');
       });
   }, []);
 
@@ -52,11 +52,9 @@ const Historico = ({ onBack }) => {
             <div className="column">
               <div className="header-cell">Porcentaje</div>
               {historicoData.map((item, index) => (
-                <div key={index} className="cell">{item.Similitud !== null ? item.Similitud + '%' : 'N/A'}</div>
+                <div key={index} className="cell">{item.Similitud !== null ? `${item.Similitud}%` : 'N/A'}</div>
               ))}
             </div>
-            
-            
           </div>
         </div>
       );
@@ -65,10 +63,11 @@ const Historico = ({ onBack }) => {
   };
 
   return (
-    // HTML para la vista histórico
     <div>
       <button onClick={onBack}>Volver</button>
-      {historicoData ? (
+      {error ? (
+        <p>{error}</p>
+      ) : historicoData ? (
         formatResult()
       ) : (
         <p>Cargando datos históricos...</p>
