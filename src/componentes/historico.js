@@ -26,9 +26,15 @@ const Historico = ({ onBack }) => {
           <h1>Histórico de peticiones</h1>
           <div className='container'>
             <div className="column">
-              <div className="header-cell">Estado</div>
+              <div className="header-cell">Documento 1</div>
               {historicoData.map((item, index) => (
-                <div key={index} className="cell">{item.Estado}</div>
+                <div key={index} className="cell">{item.doc1}</div>
+              ))}
+            </div>
+            <div className="column">
+              <div className="header-cell">Documento 2</div>
+              {historicoData.map((item, index) => (
+                <div key={index} className="cell">{item.doc2}</div>
               ))}
             </div>
             <div className="column">
@@ -40,15 +46,16 @@ const Historico = ({ onBack }) => {
             <div className="column">
               <div className="header-cell">Similitud</div>
               {historicoData.map((item, index) => (
-                <div key={index} className="cell">{item.Similitud !== null ? item.Similitud + '%' : 'N/A'}</div>
+                <div key={index} className="cell">{item.Similitud > 90 ? 'SI' : 'NO'}</div>
               ))}
             </div>
             <div className="column">
-              <div className="header-cell">Mensaje</div>
+              <div className="header-cell">Porcentaje</div>
               {historicoData.map((item, index) => (
-                <div key={index} className="cell">{item.Mensaje}</div>
+                <div key={index} className="cell">{item.Similitud !== null ? item.Similitud + '%' : 'N/A'}</div>
               ))}
             </div>
+            
             
           </div>
         </div>
