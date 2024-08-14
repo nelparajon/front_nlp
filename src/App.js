@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Home from './componentes/home';
 import Historico from './componentes/historico';
+import FilesB64 from './componentes/filesB64';
 
 //componente principal App
 const App = () => {
@@ -17,6 +18,8 @@ const App = () => {
       {currentView === 'home' && <Home onViewChange={handleViewChange} />}
       {/* Inicia el componente historico si la vista es historico */}
       {currentView === 'historico' && <Historico onBack={() => handleViewChange('home')} />}
+      {/* Inicia el componente upload_files_b64 si la vista actual es 'upload_files_b64' */}
+      {currentView === 'filesB64' && <FilesB64 onViewChange={handleViewChange} />}
     </div>
   );
 };

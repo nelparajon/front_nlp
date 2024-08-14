@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const Home = ({ onViewChange }) => {
+const FilesB64 = ({ onViewChange }) => {
   const [pdf1, setPdf1] = useState(null);
   const [pdf2, setPdf2] = useState(null);
   const [result, setResult] = useState(null);
@@ -16,17 +16,44 @@ const Home = ({ onViewChange }) => {
     setPdf2(event.target.files[0]);
   };
 
+  //convertimos los archivos a base64 antes de enviarlos
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            let base64String = reader.result.split(',')[1]; // Remover el prefijo de datos data:application/pdf;base64,
+            console.log('CADENA CONVERTIDA: ', JSON.stringify(base64String, null, 2)) //comprobar que la cadena resultante sea correcta
+            resolve(base64String);
+        };
+
+        reader.onerror = (error) => {
+            reject(error);
+        };
+
+        reader.readAsDataURL(file);
+    });
+};
+
   //envía los documentos al servidor como formData
   const handleSubmit = async () => {
-    const formData = new FormData();
-    formData.append('pdf1', pdf1);
-    formData.append('pdf2', pdf2);
+    const jsonData = {
+      'file1':{
+        'name': pdf1.name,
+        'content': await convertToBase64(pdf1)
+      },
+      'file2':{
+        'name': pdf2.name,
+        'content': await convertToBase64(pdf2)
+      }
+    }
+    
+    console.log('Datos JSON a enviar:', JSON.stringify(jsonData, null, 2));
 
     try {
       //usamos axio de terceros para enviar los documentos al servidor
-      const response = await axios.post('/analizar_documentos', formData, {
+      const response = await axios.post('/analizar_documentos_b64', jsonData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
       });
       console.log(response.data);
@@ -49,8 +76,8 @@ const Home = ({ onViewChange }) => {
         const similitud = parseFloat(result.Similitud);
         const isHighSimilarity = similitud >= 90.00;
         const message = isHighSimilarity
-          ? `Los documentos son similares. Similitud: ${similitud}%`
-          : `Los documentos no son similares. Similitud: ${similitud}%`;
+        ? `Los documentos son similares. Similitud: ${similitud}%`
+        : `Los documentos no son similares. Similitud: ${similitud}%`;
 
         const resultStyle = {
           backgroundColor: 'white',
@@ -74,12 +101,11 @@ const Home = ({ onViewChange }) => {
 
   return (
     <div>
-      <h1>Comparación de documentos PDF</h1>
+      <h1>Comparación de documentos PDF en Base64</h1>
       <input type="file" accept="application/pdf" onChange={handlePdf1Change} />
       <input type="file" accept="application/pdf" onChange={handlePdf2Change} />
       <button onClick={handleSubmit}>Comparar PDFs</button>
       <button onClick={() => onViewChange('historico')}>Ver histórico</button>
-      <button onClick={() => onViewChange('filesB64')}>Vista para archivos Base64</button>
       
       {result && (
         <div>
@@ -92,4 +118,4 @@ const Home = ({ onViewChange }) => {
   );
 };
 
-export default Home;
+export default FilesB64;
