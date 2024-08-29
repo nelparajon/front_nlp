@@ -22,6 +22,7 @@ const Historico = ({ onBack }) => {
   const formatResult = () => {
     if (historicoData) {
       return (
+      
         <div>
           <h1>Histórico de peticiones</h1>
           <div className='container'>
@@ -56,6 +57,8 @@ const Historico = ({ onBack }) => {
               ))}
             </div>
           </div>
+          <h2>Datos JSON crudos</h2>
+        <pre>{JSON.stringify(historicoData, null, 2)}</pre>
         </div>
       );
     }

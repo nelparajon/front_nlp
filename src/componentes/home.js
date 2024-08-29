@@ -5,6 +5,7 @@ const Home = ({ onViewChange }) => {
   const [pdf1, setPdf1] = useState(null);
   const [pdf2, setPdf2] = useState(null);
   const [result, setResult] = useState(null);
+  
 
 //maneja los cambios del primer documento
   const handlePdf1Change = (event) => {
@@ -80,6 +81,7 @@ const Home = ({ onViewChange }) => {
       <button onClick={handleSubmit}>Comparar PDFs</button>
       <button onClick={() => onViewChange('historico')}>Ver histórico</button>
       <button onClick={() => onViewChange('filesB64')}>Vista para archivos Base64</button>
+      <button onClick={()=> onViewChange('getParagraphs')}> Vista para extraer parrafos especificos </button>
       
       {result && (
         <div>
